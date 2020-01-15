@@ -34,6 +34,9 @@
 
         .subtitles {
             display : table-cell;
+            background: linear-gradient(180deg ,var(--baseColor_bg) , var(--baseColor) 80%);
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
             text-align: center;
             vertical-align: middle;
         }
@@ -47,23 +50,52 @@
         </div>
         <div class="subtitles-wrap">
             <div class="subtitles">
-                hello world.
+                hello world.<br>
+                aaa<br>
+                bbb<br>
+                ccc<br>
+                aaa<br>
+                bbb<br>
+                ccc<br>
+                aaa<br>
+                bbb<br>
+                ccc<br>
+                aaa<br>
+                bbb<br>
+                ccc<br>
+                aaa
             </div>
         </div>
     </main>
     <script type="text/javascript">
-    loggingObj('ajax' , xhr);
-    var xhr = new XMLHttpRequest();
-    loggingObj('ajax' , xhr);
+    logging('ajax', 'start');
+    getByAjax('/git/letter/test/docs/template/data/aaa.txt');
 
-    xhr.open('GET', './../../test/docs/template/data/aaa.txt');
-    xhr.send();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
 
-            //データを取得後の処理を書く
+    /**
+     * 
+     */
+    function scroll() {
+
+    }
+
+    /**
+     * Ajaxを利用してソースを取得する
+     */
+    function getByAjax(path) {
+        var xhr = new XMLHttpRequest();
+        loggingObj('ajax', xhr);
+
+        xhr.open('GET', path);
+        xhr.send();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+
+                //データを取得後の処理を書く
+            }
         }
     }
+
     /**
      * ログUtil
      */
