@@ -2,17 +2,19 @@
 <html>
 
 <head>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
     <title>letter</title>
     <style>
         :root {
-        	--baseColor: rgba(238,238,238,1);
-       		--baseColor_bg: rgb(23, 24, 28);
-    	}
+            --baseColor: rgba(238,238,238,1);
+            --baseColor_bg: rgb(23, 24, 28);
+            --baseColor_border: rgb(88 ,88 ,88);
+        }
 
-    	body {
-    		color : var(--baseColor);
-    		background: var(--baseColor_bg);
-    	}
+        body {
+            color : var(--baseColor);
+            background: var(--baseColor_bg);
+        }
 
         .date {
             position : absolute;
@@ -20,7 +22,22 @@
             right : 4vw;
         }
 
-	</style>
+        .subtitles-wrap {
+            position : absolute;
+            display : table;
+            bottom : 10vh;
+            left: 10vw;
+            min-height: 20vh;
+            width : 80vw;
+            border : solid var(--baseColor_border);
+        }
+
+        .subtitles {
+            display : table-cell;
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
 </head>
 
 <body>
@@ -28,8 +45,47 @@
         <div class="date">
             2020年 1月 15日
         </div>
+        <div class="subtitles-wrap">
+            <div class="subtitles">
+                hello world.
+            </div>
+        </div>
     </main>
     <script type="text/javascript">
+    loggingObj('ajax' , xhr);
+    var xhr = new XMLHttpRequest();
+    loggingObj('ajax' , xhr);
+
+    xhr.open('GET', './../../test/docs/template/data/aaa.txt');
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            //データを取得後の処理を書く
+        }
+    }
+    /**
+     * ログUtil
+     */
+    function logging(processName, message) {
+        console.log('[' + processName + '] ' + message);
+    }
+
+    var loggingMarkCount = 0;
+    /**
+     * ログUtil(目立つラインをつけて目印にする)
+     */
+    function loggingMark(message) {
+        console.log(++loggingMarkCount + '----------------------------------------- ' + message + ' ----------------------------------------- ');
+    }
+
+    /**
+     * ログUtil(オブジェクトの内容出力)
+     */
+    function loggingObj(processName, object) {
+        console.log('[' + processName + '] ');
+        console.dir(object);
+    }
     </script>
 </body>
 
