@@ -48,8 +48,8 @@
         <div class="date">
             2020年 1月 15日
         </div>
-        <div class="subtitles-wrap">
-            <div class="subtitles">
+        <div id="subtitles-wrap" class="subtitles-wrap">
+            <div id="subtitles" class="subtitles">
                 hello world.<br>
                 aaa<br>
                 bbb<br>
@@ -68,16 +68,11 @@
         </div>
     </main>
     <script type="text/javascript">
+    loadScript('/git/letter/docs/js/nextText.js', function() {
+        nextText();
+    });
     logging('ajax', 'start');
     getByAjax('/git/letter/test/docs/template/data/aaa.txt');
-
-
-    /**
-     * 
-     */
-    function scroll() {
-
-    }
 
     /**
      * Ajaxを利用してソースを取得する
@@ -94,6 +89,30 @@
                 //データを取得後の処理を書く
             }
         }
+    }
+
+    /**
+     * srcの読み込みを待ってからcallbackを実行する
+     */
+    function loadScript(src, callback) {
+        var done = false;
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.src = src;
+        head.appendChild(script);
+        // Attach handlers for all browsers
+        script.onload = script.onreadystatechange = function() {
+            if (!done && (!this.readyState ||
+                    this.readyState === "loaded" || this.readyState === "complete")) {
+                done = true;
+                callback();
+                // Handle memory leak in IE
+                script.onload = script.onreadystatechange = null;
+                if (head && script.parentNode) {
+                    head.removeChild(script);
+                }
+            }
+        };
     }
 
     /**
