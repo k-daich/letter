@@ -18,9 +18,36 @@ function nextText() {
 function mdown(event) {
     logging('mdown', 'start');
     loggingObj('subtitlesEle', this.subtitlesEle);
-    this.subtitlesEle.innerHTML = sentences[currentTextIndex++];
+    dispLikeTypeWriter(this.subtitlesEle, sentences[currentTextIndex++]);
 }
 
+
+
+/**
+ * タイプライターのように一文字ずつ表示させる
+ */
+var dispCount = 0; // 現在表示されている文字数
+const dispSpeed = 300; // 1文字を表示する際のミリ秒
+function dispLikeTypeWriter(element, sentence) {
+    dispCount++;
+    logging('count : sentence', dispCount + ':' + sentence);
+
+    if (dispCount > sentence.length) {
+        logging('end');
+        dispCount = 0;
+        return;
+    }
+    var type = sentence.substring(0, dispCount);
+    // テキストフィールドにデータを渡す処理
+    element.innerHTML = type;
+
+    var rep = setTimeout(dispLikeTypeWriter(element, sentence), dispSpeed);
+}
+
+
+/**
+ * 以降、Util
+//
 /**
  * ログUtil
  */
