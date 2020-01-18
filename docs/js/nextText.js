@@ -14,39 +14,50 @@ function nextText() {
 /**
  * 以降、ファンクション
  */
+var currentText;
 var dispCount = 0; // 現在表示されている文字数
 const dispSpeed = 100; // 1文字を表示する際のミリ秒
 /**
  * アニメーション
  */
 var animate = {
-
     /**
      * タイプライターのように一文字ずつ表示させる
      */
     dispLikeTypeWriter: function(element, sentence) {
-        dispCount++;
-        loggingObj('this', this);
-
         if (dispCount > sentence.length) {
             logging('LoopEnd');
             dispCount = 0;
             return;
         }
-        logging('count : sentence', dispCount + ':' + sentence.substring(0, dispCount));
-        var type = sentence.substring(0, dispCount);
+
+        currentText = currentText.replace('&nbsp;' , sentence.charAt(dispCount));
+//        currentText = repalaceAt(currentText, dispCount, sentence.charAt(dispCount));
+        logging('count : currentText', dispCount + ':' + currentText + 'D');
 
         // テキストフィールドにデータを渡す処理
-        element.innerHTML = type;
+        element.innerHTML = currentText;
+        dispCount++;
 
         setTimeout(animate.dispLikeTypeWriter, dispSpeed, element, sentence);
     }
+}
+
+/**
+ * 指定位置の文字を入れ替える
+ */
+function repalaceAt(str, index, char) {
+    return str.slice(0, index) + char + str.slice(index + 1, str.length);
 }
 
 // マウスダウンした時に発火
 function mdown(event) {
     logging('mdown', 'start');
     loggingObj('subtitlesEle', this.subtitlesEle);
+    // 初期表示：表示する文章と同じ文字数の半角スペースを設定
+    currentText = ''.padStart(sentences[currentTextIndex].length * '&nbsp;'.length, '&nbsp;');
+    this.subtitlesEle.innerHTML = currentText;
+    logging('currentText.length', currentText.length);
     animate.dispLikeTypeWriter(this.subtitlesEle, sentences[currentTextIndex++]);
 }
 
