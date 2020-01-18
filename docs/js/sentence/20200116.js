@@ -1,15 +1,15 @@
 var sentences = [
-"You try to run me through<br>\
-Hold on, think again<br>\
-Don't you know what's you're starting<br>\
+"You try to run me through\n\
+Hold on, think again\n\
+Don't you know what's you're starting\n\
 But you sure ain't got a clue",
 
-"How bad, this will go<br>\
+"How bad, this will go\n\
 Don't you know my art, art of war",
 
-"And as you look to the horizon, not a cloud<br>\
-But then stormy weather's caught you cold<br>\
-Seems like it crept up out of nowhere all around you<br>\
+"And as you look to the horizon, not a cloud\n\
+But then stormy weather's caught you cold\n\
+Seems like it crept up out of nowhere all around you\n\
 It's not quite what you foretold",
 
 "You'll never see it coming",

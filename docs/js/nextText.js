@@ -1,4 +1,4 @@
-var currentTextIndex = 0;
+var currentDispTextIndex = 0;
 
 function nextText() {
     logging('nextText.js', 'start');
@@ -14,32 +14,44 @@ function nextText() {
 /**
  * 以降、ファンクション
  */
-var currentText;
-var dispCount = 0; // 現在表示されている文字数
-const dispSpeed = 100; // 1文字を表示する際のミリ秒
+const dispSpeed = 90; // 1文字を表示する際のミリ秒
 /**
  * アニメーション
  */
 var animate = {
+    /*
+     * アニメーションの実行手続き
+     */
+    execute: function(element, sentence) {
+        animate.nbspSet(element, sentence.split(/\n/));
+        logging('replStr', sentence.replace(/\n/g, ''));
+        animate.dispLikeTypeWriter(element, 0, Array.from(sentence.replace(/\n/g, '')));
+    },
+
+    nbspSet: function(element, text_array) {
+        var init_html = '';
+        for (index in text_array) {
+            var textByte = text_array[index].length + amountOfZenkaku(text_array[index]);
+            init_html = init_html + ((index == 0) ? '' : '<br>') + ''.padStart(textByte * '&nbsp;'.length, '&nbsp;');
+        }
+        logging('init_html', init_html);
+        // 初期表示：表示する文章と同じ文字数の半角スペースを設定
+        element.innerHTML = init_html;
+    },
+
     /**
      * タイプライターのように一文字ずつ表示させる
      */
-    dispLikeTypeWriter: function(element, sentence) {
-        if (dispCount > sentence.length) {
-            logging('LoopEnd');
-            dispCount = 0;
-            return;
+    dispLikeTypeWriter: function(element, index, replcStr) {
+        if (replcStr.length == index) return;
+        // "全角一文字"⇔"nbsp2つ"を置換
+        if (isZenkaku(replcStr[index])) {
+            element.innerHTML = element.innerHTML.replace('&nbsp;&nbsp;', replcStr[index]);
+        // "半角一文字"⇔"nbsp1つ"を置換
+        } else {
+            element.innerHTML = element.innerHTML.replace('&nbsp;', replcStr[index]);
         }
-
-        currentText = currentText.replace('&nbsp;' , sentence.charAt(dispCount));
-//        currentText = repalaceAt(currentText, dispCount, sentence.charAt(dispCount));
-        logging('count : currentText', dispCount + ':' + currentText + 'D');
-
-        // テキストフィールドにデータを渡す処理
-        element.innerHTML = currentText;
-        dispCount++;
-
-        setTimeout(animate.dispLikeTypeWriter, dispSpeed, element, sentence);
+        setTimeout(animate.dispLikeTypeWriter, dispSpeed, element, ++index, replcStr);
     }
 }
 
@@ -54,16 +66,21 @@ function repalaceAt(str, index, char) {
 function mdown(event) {
     logging('mdown', 'start');
     loggingObj('subtitlesEle', this.subtitlesEle);
-    // 初期表示：表示する文章と同じ文字数の半角スペースを設定
-    currentText = ''.padStart(sentences[currentTextIndex].length * '&nbsp;'.length, '&nbsp;');
-    this.subtitlesEle.innerHTML = currentText;
-    logging('currentText.length', currentText.length);
-    animate.dispLikeTypeWriter(this.subtitlesEle, sentences[currentTextIndex++]);
+    animate.execute(this.subtitlesEle, sentences[currentDispTextIndex++]);
 }
 
 /**
  * 以降、Util
-//
+ */
+function amountOfZenkaku(str) {
+    logging('amountOfZenkaku : str', str);
+    logging('amountOfZenkaku : han_Len', str.replace(/[^\x01-\x7E\xA1-\xDF]/g, '').length);
+    return str.length - str.replace(/[^\x01-\x7E\xA1-\xDF]/g, '').length;
+}
+
+function isZenkaku(char) {
+    return (char.match(/^[^\x01-\x7E\xA1-\xDF]+$/)) ? true : false;
+}
 /**
  * ログUtil
  */
