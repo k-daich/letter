@@ -2,12 +2,14 @@ var currentDispTextIndex = 0;
 
 function nextText() {
     logging('nextText.js', 'start');
-    var subtitlesEle = document.getElementById('subtitles');
-    loggingObj('subtitlesEle', subtitlesEle);
+    animate.textEle = document.getElementById('i_subtitles');
+    loggingObj('animate.textEle', animate.textEle);
+    animate.formEle = document.getElementById('i_subsForm');
+    loggingObj('animate.formEle', animate.formEle);
 
-    loadScript('/git/letter/docs/js/sentence/20200116.js', function() {
+    loadScript('/git/letter/docs/js/sentence/20200119.js', function() {
         // subtitles-wrapをクリックされた場合のイベントリスナーを追加
-        document.getElementById('subtitles-wrap').addEventListener("mousedown", { subtitlesEle: subtitlesEle, handleEvent: mdown }, false);
+        document.getElementById('i_subtitles-wrap').addEventListener("mousedown", mdown, false);
     });
 }
 
@@ -23,21 +25,27 @@ var animate = {
     isRunning: false,
     // 二重起動フラグ
     isDuplicate: false,
+    // 表示する情報
+    dispInfo: null,
+    // テキスト表示箇所
+    textEle: null,
+    // フォーム表示箇所
+    formEle: null,
     /*
      * アニメーションの実行手続き
      */
-    run: function(element, sentence) {
+    run: function() {
         // 処理中フラグを立てる
         animate.isRunning = true;
-        animate.nbspSet(element, sentence.split(/\n/));
-        logging('replStr', sentence.replace(/\n/g, ''));
-        animate.dispLikeTypeWriter(element, 0, Array.from(sentence.replace(/\n/g, '')));
+        animate.nbspSet(animate.dispInfo.text.split(/\n/));
+        logging('replStr', animate.dispInfo.text.replace(/\n/g, ''));
+        animate.dispLikeTypeWriter(0, Array.from(animate.dispInfo.text.replace(/\n/g, '')));
     },
 
     /*
      * 表示する文字分だけのnbspを設定する
      */
-    nbspSet: function(element, text_array) {
+    nbspSet: function(text_array) {
         var init_html = '';
         for (index in text_array) {
             var textByte = text_array[index].length + amountOfZenkaku(text_array[index]);
@@ -45,34 +53,62 @@ var animate = {
         }
         logging('init_html', init_html);
         // 初期表示：表示する文章と同じ文字数の半角スペースを設定
-        element.innerHTML = init_html;
+        animate.textEle.innerHTML = init_html;
     },
 
     /**
      * タイプライターのようにnbspを一文字ずつ置換して文字を表示させていく
      */
-    dispLikeTypeWriter: function(element, index, replcStr) {
+    dispLikeTypeWriter: function(index, replcStr) {
         // 二重起動した場合 OR 全ての表示が完了した場合
         if (animate.isDuplicate || replcStr.length == index) {
+            // フォームを表示する
+            animate.dispForm();
             // 処理中フラグを落とす
             animate.isRunning = false;
             return;
         }
         // "全角一文字"⇔"nbsp2つ"を置換
         if (isZenkaku(replcStr[index])) {
-            element.innerHTML = element.innerHTML.replace('&nbsp;&nbsp;', replcStr[index]);
+            animate.textEle.innerHTML = animate.textEle.innerHTML.replace('&nbsp;&nbsp;', replcStr[index]);
             // "半角一文字"⇔"nbsp1つ"を置換
         } else {
-            element.innerHTML = element.innerHTML.replace('&nbsp;', replcStr[index]);
+            animate.textEle.innerHTML = animate.textEle.innerHTML.replace('&nbsp;', replcStr[index]);
         }
-        setTimeout(animate.dispLikeTypeWriter, dispSpeed, element, ++index, replcStr);
+        setTimeout(animate.dispLikeTypeWriter, dispSpeed, ++index, replcStr);
     },
 
     /**
      * 即時に文字を全表示する
      */
-    allDisp: function(element, sentence) {
-        element.innerHTML = sentence.replace(/\n/g, '<br>');
+    dispForm: function() {
+        switch (animate.dispInfo.type) {
+            case TYPE.noInput:
+                logging('dispForm', 'TYPE.noInput');
+                break;
+            case TYPE.radio:
+                logging('dispForm', 'TYPE.radio');
+                break;
+            case TYPE.select:
+                logging('dispForm', 'TYPE.select');
+                break;
+            case TYPE.textBox:
+                logging('dispForm', 'TYPE.textBox');
+                break;
+            case TYPE.textArea:
+                logging('dispForm', 'TYPE.textArea');
+                break;
+            default:
+                logging('dispForm', 'TYPE is unExpected : ' + animate.dispInfo.type);
+                break;
+        }
+    },
+
+    /**
+     * 即時に文字を全表示する
+     */
+    allDisp: function() {
+        animate.textEle.innerHTML = animate.dispInfo.text.replace(/\n/g, '<br>');
         // 二重起動フラグを落とす
         animate.isDuplicate = false;
     }
@@ -88,18 +124,24 @@ function repalaceAt(str, index, char) {
 // マウスダウンした時に発火
 function mdown(event) {
     logging('mdown', 'start');
-    loggingObj('subtitlesEle', this.subtitlesEle);
+    // 二重起動中は何もしない
+    if (animate.isDuplicate) {
+        return;
+    }
     // アニメーションが実行中の場合
-    if (animate.isRunning) {
+    else if (animate.isRunning) {
         // 二重起動フラグを立てる
         animate.isDuplicate = true;
         // 全ての文字を即時表示させる
         // ※アニメーションの処理中であることを考慮し、ループ時間+αミリ秒だけ待機してから実行する
-        setTimeout(animate.allDisp, dispSpeed + 100, this.subtitlesEle, sentences[currentDispTextIndex-1]);
+        setTimeout(animate.allDisp, dispSpeed + 100);
     }
-    // アニメーションが実行中でない場合
+    // 上記以外
     else {
-        animate.run(this.subtitlesEle, sentences[currentDispTextIndex++]);
+        // 現在の表示が文章の最後だった場合は処理終了
+        if (dispInfoArray.length == currentDispTextIndex) return;
+        animate.dispInfo = dispInfoArray[currentDispTextIndex++];
+        animate.run();
     }
 }
 

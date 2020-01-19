@@ -1,4 +1,12 @@
-var sentences = [
+var TYPE = {
+    noInput : 1,
+    radio : 2,
+    select : 3,
+    textBox : 4,
+    textArea : 5
+}
+
+var dispInfoArray = [
     "テスト用文言。\n\
 改行もOK。\n\
 1バイトと2バイト文字が混在しようが問題無し。",
