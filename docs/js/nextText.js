@@ -4,7 +4,7 @@ function nextText() {
     logging('nextText.js', 'start');
     animate.textEle = document.getElementById('i_subtitles');
     loggingObj('animate.textEle', animate.textEle);
-    animate.formEle = document.getElementById('i_subsForm');
+    animate.formEle = document.getElementById('i_subsForm-wrap');
     loggingObj('animate.formEle', animate.formEle);
 
     loadScript('/git/letter/docs/js/sentence/20200119.js', function() {
@@ -81,6 +81,15 @@ var animate = {
     /**
      * 即時に文字を全表示する
      */
+    allDisp: function() {
+        animate.textEle.innerHTML = animate.dispInfo.text.replace(/\n/g, '<br>');
+        // 二重起動フラグを落とす
+        animate.isDuplicate = false;
+    },
+
+    /**
+     * 即時に文字を全表示する
+     */
     dispForm: function() {
         switch (animate.dispInfo.type) {
             case TYPE.noInput:
@@ -88,9 +97,15 @@ var animate = {
                 break;
             case TYPE.radio:
                 logging('dispForm', 'TYPE.radio');
+                animate.formEle.innerHTML = animate.buildRadioForm();
                 break;
             case TYPE.select:
                 logging('dispForm', 'TYPE.select');
+                animate.formEle.innerHTML = animate.buildSelectForm();
+                break;
+            case TYPE.checkBox:
+                logging('dispForm', 'TYPE.checkBox');
+                animate.formEle.innerHTML = animate.buildCheckBoxForm();
                 break;
             case TYPE.textBox:
                 logging('dispForm', 'TYPE.textBox');
@@ -105,12 +120,33 @@ var animate = {
     },
 
     /**
-     * 即時に文字を全表示する
+     * ラジオボタンを生成する
      */
-    allDisp: function() {
-        animate.textEle.innerHTML = animate.dispInfo.text.replace(/\n/g, '<br>');
-        // 二重起動フラグを落とす
-        animate.isDuplicate = false;
+    buildRadioForm: function() {
+        // 初期値設定：開始タグ
+        var sBuild = '<form id="i_subsForm" class="c_subsForm_radio">';
+
+        // データ分繰り返し：ラジオボタン
+        for (var c of animate.dispInfo.choice) {
+            sBuild = sBuild + '<input name="f_radio" type="radio" value="' + c.value + '" class="c_f_radio"><label>' + c.label + '</label>';
+        }
+        // 閉じタグ
+        return sBuild + '</form>';
+    },
+
+    /**
+     * セレクトボタンを生成する
+     */
+    buildSelectForm: function() {
+        // 初期値設定：開始タグ
+        var sBuild = '<form id="i_subsForm" class="c_subsForm_select"><select name="f_select">';
+
+        // データ分繰り返し：セレクトボタン
+        for (var c of animate.dispInfo.choice) {
+            sBuild = sBuild + '<option value="' + c.value + '" class="c_f_select">' + c.label + '</option>';
+        }
+        // 閉じタグ
+        return sBuild + '</select></form>';
     }
 }
 
@@ -140,7 +176,11 @@ function mdown(event) {
     else {
         // 現在の表示が文章の最後だった場合は処理終了
         if (dispInfoArray.length == currentDispTextIndex) return;
+        // フォームを削除
+        animate.formEle.innerHTML = '';
+        // 次の表示情報を設定する
         animate.dispInfo = dispInfoArray[currentDispTextIndex++];
+        // 表示処理を実行する
         animate.run();
     }
 }
