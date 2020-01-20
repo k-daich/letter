@@ -178,7 +178,7 @@ var animate = {
         // データ分繰り返し：テキストボックス
         for (var i in animate.dispInfo.inputs) {
             // 最初のデータ以外の場合：brを入れる
-            if (i != 0)  sBuild = sBuild + '<br>';
+            if (i != 0) sBuild = sBuild + '<br>';
             // inputタグの追加
             sBuild = sBuild + '<label>' + animate.dispInfo.inputs[i].label + '</label><input type="text" name="f_textbox" value="' + animate.dispInfo.inputs[i].initValue + '" maxlength="' + animate.dispInfo.inputs[i].maxLength + '" class="c_f_textbox"></input>';
         }
@@ -190,6 +190,12 @@ var animate = {
      * テキストエリアのHTMLコードを生成する
      */
     buildTextAreaForm: function() {
+        // 初期値設定：開始タグ
+        return '<form id="i_subsForm" class="c_subsForm_textarea">\
+        <label> ' + animate.dispInfo.label +
+            '<textarea cols="' + animate.dispInfo.cols + '" rows="' + animate.dispInfo.rows + '" maxLength="' + animate.dispInfo.maxlength + '" name="f_textarea" class="c_f_textarea">' +
+            animate.dispInfo.initValue +
+            '</textarea></label></form>';
     }
 }
 
