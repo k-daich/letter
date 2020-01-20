@@ -2,14 +2,14 @@ var currentDispTextIndex = 0;
 
 function nextText() {
     logging('nextText.js', 'start');
-    animate.textEle = document.getElementById('i_subtitles');
+    animate.textEle = $('#i_subtitles');
     loggingObj('animate.textEle', animate.textEle);
-    animate.formEle = document.getElementById('i_subsForm-wrap');
+    animate.formEle = $('#i_subsForm-wrap');
     loggingObj('animate.formEle', animate.formEle);
 
     loadScript('/git/letter/docs/js/sentence/20200119.js', function() {
         // subtitles-wrapをクリックされた場合のイベントリスナーを追加
-        document.getElementById('i_subtitles-wrap').addEventListener("mousedown", mdown, false);
+        $('#i_subtitles-wrap').on("mousedown", mdown);
     });
 }
 
@@ -53,7 +53,7 @@ var animate = {
         }
         logging('init_html', init_html);
         // 初期表示：表示する文章と同じ文字数の半角スペースを設定
-        animate.textEle.innerHTML = init_html;
+        animate.textEle.html(init_html);
     },
 
     /**
@@ -70,10 +70,10 @@ var animate = {
         }
         // "全角一文字"⇔"nbsp2つ"を置換
         if (isZenkaku(replcStr[index])) {
-            animate.textEle.innerHTML = animate.textEle.innerHTML.replace('&nbsp;&nbsp;', replcStr[index]);
+            animate.textEle.html(animate.textEle.html().replace('&nbsp;&nbsp;', replcStr[index]));
             // "半角一文字"⇔"nbsp1つ"を置換
         } else {
-            animate.textEle.innerHTML = animate.textEle.innerHTML.replace('&nbsp;', replcStr[index]);
+            animate.textEle.html(animate.textEle.html().replace('&nbsp;', replcStr[index]));
         }
         setTimeout(animate.dispLikeTypeWriter, dispSpeed, ++index, replcStr);
     },
@@ -82,7 +82,7 @@ var animate = {
      * 即時に文字を全表示する
      */
     allDisp: function() {
-        animate.textEle.innerHTML = animate.dispInfo.text.replace(/\n/g, '<br>');
+        animate.textEle.html(animate.dispInfo.text.replace(/\n/g, '<br>'));
         // 二重起動フラグを落とす
         animate.isDuplicate = false;
     },
@@ -97,23 +97,23 @@ var animate = {
                 break;
             case TYPE.radio:
                 logging('dispForm', 'TYPE.radio');
-                animate.formEle.innerHTML = animate.buildRadioForm();
+                animate.formEle.html(animate.buildRadioForm());
                 break;
             case TYPE.select:
                 logging('dispForm', 'TYPE.select');
-                animate.formEle.innerHTML = animate.buildSelectForm();
+                animate.formEle.html(animate.buildSelectForm());
                 break;
             case TYPE.checkBox:
                 logging('dispForm', 'TYPE.checkBox');
-                animate.formEle.innerHTML = animate.buildCheckBoxForm();
+                animate.formEle.html(animate.buildCheckBoxForm());
                 break;
             case TYPE.textBox:
                 logging('dispForm', 'TYPE.textBox');
-                animate.formEle.innerHTML = animate.buildTextBoxForm();
+                animate.formEle.html(animate.buildTextBoxForm());
                 break;
             case TYPE.textArea:
                 logging('dispForm', 'TYPE.textArea');
-                animate.formEle.innerHTML = animate.buildTextAreaForm();
+                animate.formEle.html(animate.buildTextAreaForm());
                 break;
             default:
                 logging('dispForm', 'TYPE is unExpected : ' + animate.dispInfo.type);
@@ -226,7 +226,7 @@ function mdown(event) {
         // 現在の表示が文章の最後だった場合は処理終了
         if (dispInfoArray.length == currentDispTextIndex) return;
         // フォームを削除
-        animate.formEle.innerHTML = '';
+        animate.formEle.html('');
         // 次の表示情報を設定する
         animate.dispInfo = dispInfoArray[currentDispTextIndex++];
         // 表示処理を実行する
