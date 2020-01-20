@@ -7,7 +7,47 @@ var TYPE = {
     textArea: 6
 }
 
-var dispInfoArray = [{
+var dispInfoArray = [
+{
+        type: TYPE.textBox,
+        inputs: [{
+                initValue: "田中",
+                label: "姓",
+                maxLength: 10
+            },
+            {
+                initValue: "太郎",
+                label: "名",
+                maxLength: 12
+            },
+            {
+                initValue: "たなたろ",
+                label: "ニックネーム",
+                maxLength: 15
+            }
+        ],
+        text: "checkboxテスト用文言。\n\
+はい or いいえ"
+    },
+{
+        type: TYPE.checkBox,
+        choice: [{
+                value: "head",
+                label: "頭"
+            },
+            {
+                value: "stomach",
+                label: "腹"
+            },
+            {
+                value: "tail",
+                label: "尾"
+            }
+        ],
+        text: "checkboxテスト用文言。\n\
+はい or いいえ"
+    },
+{
         type: TYPE.select,
         choice: [{
                 value: "head",
@@ -22,7 +62,7 @@ var dispInfoArray = [{
                 label: "尾"
             }
         ],
-        text: "radioテスト用文言。\n\
+        text: "selectテスト用文言。\n\
 はい or いいえ"
     },
     {        type: TYPE.radio,

@@ -109,18 +109,21 @@ var animate = {
                 break;
             case TYPE.textBox:
                 logging('dispForm', 'TYPE.textBox');
+                animate.formEle.innerHTML = animate.buildTextBoxForm();
                 break;
             case TYPE.textArea:
                 logging('dispForm', 'TYPE.textArea');
+                animate.formEle.innerHTML = animate.buildTextAreaForm();
                 break;
             default:
                 logging('dispForm', 'TYPE is unExpected : ' + animate.dispInfo.type);
+                throw new Error("表示情報形式不正：typeが想定外値");
                 break;
         }
     },
 
     /**
-     * ラジオボタンを生成する
+     * ラジオボタンのHTMLコードを生成する
      */
     buildRadioForm: function() {
         // 初期値設定：開始タグ
@@ -135,7 +138,7 @@ var animate = {
     },
 
     /**
-     * セレクトボタンを生成する
+     * セレクトボタンのHTMLコードを生成する
      */
     buildSelectForm: function() {
         // 初期値設定：開始タグ
@@ -147,6 +150,46 @@ var animate = {
         }
         // 閉じタグ
         return sBuild + '</select></form>';
+    },
+
+    /**
+     * チェックボックスのHTMLコードを生成する
+     */
+    buildCheckBoxForm: function() {
+        // 初期値設定：開始タグ
+        var sBuild = '<form id="i_subsForm" class="c_subsForm_checkbox">';
+
+        // データ分繰り返し：チェックボックス
+        for (var c of animate.dispInfo.choice) {
+            sBuild = sBuild + '<input type="checkbox" name="f_checkbox" value="' + c.value + '" class="c_f_checkbox"><label>' + c.label + '</label></input>';
+        }
+        // 閉じタグ
+        return sBuild + '</form>';
+    },
+
+
+    /**
+     * テキストボックスのHTMLコードを生成する
+     */
+    buildTextBoxForm: function() {
+        // 初期値設定：開始タグ
+        var sBuild = '<form id="i_subsForm" class="c_subsForm_textbox">';
+
+        // データ分繰り返し：テキストボックス
+        for (var i in animate.dispInfo.inputs) {
+            // 最初のデータ以外の場合：brを入れる
+            if (i != 0)  sBuild = sBuild + '<br>';
+            // inputタグの追加
+            sBuild = sBuild + '<label>' + animate.dispInfo.inputs[i].label + '</label><input type="text" name="f_textbox" value="' + animate.dispInfo.inputs[i].initValue + '" maxlength="' + animate.dispInfo.inputs[i].maxLength + '" class="c_f_textbox"></input>';
+        }
+        // 閉じタグ
+        return sBuild + '</form>';
+    },
+
+    /**
+     * テキストエリアのHTMLコードを生成する
+     */
+    buildTextAreaForm: function() {
     }
 }
 
