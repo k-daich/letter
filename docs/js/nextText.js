@@ -120,6 +120,7 @@ var animate = {
                 throw new Error("表示情報形式不正：typeが想定外値");
                 break;
         }
+                show(animate.formEle);
     },
 
     /**
@@ -227,6 +228,8 @@ function mdown(event) {
         if (dispInfoArray.length == currentDispTextIndex) return;
         // フォームを削除
         animate.formEle.html('');
+        // フォームを非表示化
+        hide(animate.formEle);
         // 次の表示情報を設定する
         animate.dispInfo = dispInfoArray[currentDispTextIndex++];
         // 表示処理を実行する
@@ -241,6 +244,22 @@ function amountOfZenkaku(str) {
     logging('amountOfZenkaku : str', str);
     logging('amountOfZenkaku : han_Len', str.replace(/[^\x01-\x7E\xA1-\xDF]/g, '').length);
     return str.length - str.replace(/[^\x01-\x7E\xA1-\xDF]/g, '').length;
+}
+
+/**
+ * 対象タグを隠す
+ */
+function hide(_$) {
+    _$.addClass('hide');
+}
+
+
+/**
+ * 隠れていた対象タグを表示する
+ */
+function show(_$) {
+    _$.addClass('show');
+    _$.removeClass('hide');
 }
 
 function isZenkaku(char) {

@@ -53,7 +53,8 @@
             min-height: 20vh;
             width : 60vw;
             border : solid var(--baseColor_border);
-            transition : 0.7s;
+            transition : 2s;
+            /*background: rgb(255,255,255);*/
         }
 
         .c_subsForm_radio {
@@ -66,6 +67,23 @@
         .c_subsForm_radio > label {
             width: auto;
             padding : 0 20px;
+        }
+
+        .hide{
+            display: none;
+        }
+
+        @keyframes show{
+            from{
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+            }
+        }
+
+        .show{
+            animation: show 1s linear 0s;
         }
 
         .c_f_radio {
