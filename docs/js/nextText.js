@@ -4,6 +4,8 @@ function nextText() {
     logging('nextText.js', 'start');
     animate.textEle = $('#i_subtitles');
     loggingObj('animate.textEle', animate.textEle);
+    animate.textEle = $('#i_subtitles');
+    loggingObj('animate.textEle', animate.textEle);
     animate.formEle = $('#i_subsForm-wrap');
     loggingObj('animate.formEle', animate.formEle);
 
@@ -27,6 +29,8 @@ var animate = {
     isDuplicate: false,
     // 表示する情報
     dispInfo: null,
+    // イメージ表示箇所
+    imageEle: null,
     // テキスト表示箇所
     textEle: null,
     // フォーム表示箇所
@@ -37,9 +41,17 @@ var animate = {
     run: function() {
         // 処理中フラグを立てる
         animate.isRunning = true;
+        animate.dispImage();
         animate.nbspSet(animate.dispInfo.text.split(/\n/));
         logging('replStr', animate.dispInfo.text.replace(/\n/g, ''));
         animate.dispLikeTypeWriter(0, Array.from(animate.dispInfo.text.replace(/\n/g, '')));
+    },
+
+    /*
+     * 画像を表示する
+     */
+    dispImage: function() {
+
     },
 
     /*
@@ -120,7 +132,7 @@ var animate = {
                 throw new Error("表示情報形式不正：typeが想定外値");
                 break;
         }
-                show(animate.formEle);
+        show(animate.formEle);
     },
 
     /**
