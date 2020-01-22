@@ -2,8 +2,8 @@ var currentDispTextIndex = 0;
 
 function nextText() {
     logging('nextText.js', 'start');
-    animate.textEle = $('#i_subtitles');
-    loggingObj('animate.textEle', animate.textEle);
+    animate.imageEle = $('#i_image');
+    loggingObj('animate.imageEle', animate.imageEle);
     animate.textEle = $('#i_subtitles');
     loggingObj('animate.textEle', animate.textEle);
     animate.formEle = $('#i_subsForm-wrap');
@@ -51,7 +51,12 @@ var animate = {
      * 画像を表示する
      */
     dispImage: function() {
-
+        logging('dispImage: image', animate.dispInfo.image);
+        if (animate.dispInfo.image != "") {
+            animate.imageEle.html('<img border="0" src="/git/letter/docs/img/' + animate.dispInfo.image + '" width="128" height="128" alt="イラスト1">');
+            // 隠されていたイメージ要素を見せる
+            show(animate.imageEle);
+        }
     },
 
     /*
@@ -238,10 +243,10 @@ function mdown(event) {
     else {
         // 現在の表示が文章の最後だった場合は処理終了
         if (dispInfoArray.length == currentDispTextIndex) return;
-        // フォームを削除
-        animate.formEle.html('');
-        // フォームを非表示化
-        hide(animate.formEle);
+        // イメージ要素を初期化
+        initWhenClicked(animate.imageEle);
+        // フォーム要素を初期化
+        initWhenClicked(animate.formEle);
         // 次の表示情報を設定する
         animate.dispInfo = dispInfoArray[currentDispTextIndex++];
         // 表示処理を実行する
@@ -256,6 +261,20 @@ function amountOfZenkaku(str) {
     logging('amountOfZenkaku : str', str);
     logging('amountOfZenkaku : han_Len', str.replace(/[^\x01-\x7E\xA1-\xDF]/g, '').length);
     return str.length - str.replace(/[^\x01-\x7E\xA1-\xDF]/g, '').length;
+}
+
+/**
+ * 
+ */
+function initWhenClicked(_$) {
+    logging('init : _$.html', _$.html());
+    // 内容を空に更新する
+    _$.html('');
+    logging('init : _$.html', _$.html());
+    // タグを隠す
+    hide(_$);
+    // showクラスを削除する
+    _$.removeClass('show');
 }
 
 /**
