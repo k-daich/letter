@@ -20,7 +20,7 @@ var dispInfoArray = [{
     },
     {
         type: TYPE.textBox,
-        image: "click.png",
+        image: "triangle.png",
         inputs: [{
                 initValue: "田中",
                 label: "姓",

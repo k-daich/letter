@@ -2,7 +2,7 @@ var currentDispTextIndex = 0;
 
 function nextText() {
     logging('nextText.js', 'start');
-    animate.imageEle = $('#i_image');
+    animate.imageEle = $('#i_image-wrap');
     loggingObj('animate.imageEle', animate.imageEle);
     animate.textEle = $('#i_subtitles');
     loggingObj('animate.textEle', animate.textEle);
@@ -55,7 +55,7 @@ var animate = {
         if (animate.dispInfo.image != "") {
             animate.imageEle.html('<img border="0" src="/git/letter/docs/img/' + animate.dispInfo.image + '" width="128" height="128" alt="イラスト1">');
             // 隠されていたイメージ要素を見せる
-            show(animate.imageEle);
+            setTimeout(show , 1000, animate.imageEle);
         }
     },
 
@@ -213,7 +213,8 @@ var animate = {
         <label> ' + animate.dispInfo.label +
             '<textarea cols="' + animate.dispInfo.cols + '" rows="' + animate.dispInfo.rows + '" maxLength="' + animate.dispInfo.maxlength + '" name="f_textarea" class="c_f_textarea">' +
             animate.dispInfo.initValue +
-            '</textarea></label></form>';
+            '</textarea></label><br>\
+            <button type="submit" name="example" value="ボタン">ボタンの内容</button></form>';
     }
 }
 
@@ -271,10 +272,10 @@ function initWhenClicked(_$) {
     // 内容を空に更新する
     _$.html('');
     logging('init : _$.html', _$.html());
-    // タグを隠す
-    hide(_$);
     // showクラスを削除する
     _$.removeClass('show');
+    // タグを隠す
+    hide(_$);
 }
 
 /**
@@ -289,8 +290,8 @@ function hide(_$) {
  * 隠れていた対象タグを表示する
  */
 function show(_$) {
-    _$.addClass('show');
     _$.removeClass('hide');
+    _$.addClass('show');
 }
 
 function isZenkaku(char) {
