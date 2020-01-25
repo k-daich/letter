@@ -8,17 +8,6 @@ var TYPE = {
 }
 
 var dispInfoArray = [{
-        type: TYPE.textArea,
-        initValue: "こんにちは。",
-        label: "挨拶",
-        cols: 25,
-        rows: 5,
-        maxLength: 100,
-        image: "click.png",
-        text: "textareaテスト用文言。\n\
-はい or いいえ"
-    },
-    {
         type: TYPE.textBox,
         image: "triangle.png",
         inputs: [{
@@ -38,6 +27,17 @@ var dispInfoArray = [{
             }
         ],
         text: "textboxテスト用文言。\n\
+はい or いいえ"
+    },
+    {
+        type: TYPE.textArea,
+        initValue: "こんにちは。",
+        label: "挨拶",
+        cols: 25,
+        rows: 5,
+        maxLength: 100,
+        image: "click.png",
+        text: "textareaテスト用文言。\n\
 はい or いいえ"
     },
     {

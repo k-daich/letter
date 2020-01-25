@@ -245,6 +245,7 @@ function mdown(event) {
     }
     // 上記以外
     else {
+        loggingObj('dispInfoArray', dispInfoArray);
         // 現在の表示が文章の最後だった場合は処理終了
         if (dispInfoArray.length == currentDispTextIndex) return;
         // イメージ要素を初期化
