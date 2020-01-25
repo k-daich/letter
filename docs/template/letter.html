@@ -2,8 +2,33 @@
 <html>
 
 <head>
+    <script type="text/javascript">
+    /**
+     * ログUtil
+     */
+    function logging(processName, message) {
+        console.log('[' + processName + '] ' + message);
+    }
+
+    var loggingMarkCount = 0;
+    /**
+     * ログUtil(目立つラインをつけて目印にする)
+     */
+    function loggingMark(message) {
+        console.log(++loggingMarkCount + '----------------------------------------- ' + message + ' ----------------------------------------- ');
+    }
+
+    /**
+     * ログUtil(オブジェクトの内容出力)
+     */
+    function loggingObj(processName, object) {
+        console.log('[' + processName + '] ');
+        console.dir(object);
+    }
+    </script>
     <script type="text/javascript" src="/git/letter/docs/js/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="/git/letter/docs/js/setToday.js"></script>
+    <script type="text/javascript" src="/git/letter/docs/js/ajaxForm.js"></script>
     <meta charset="utf-8" />
     <title>letter</title>
     <style>
@@ -87,7 +112,14 @@
             animation: show 1s linear 0s;
         }
 
-        .c_f_radio {
+        .c_image-wrap > img {
+            position : absolute;
+            top : 0;
+            bottom : 0;
+            left : 0;
+            right : 0;
+            margin : auto;
+            z-index: -1;
         }
 
     </style>
@@ -98,8 +130,6 @@
         <div id="today" class="date">
         </div>
         <div id="i_image-wrap" class="c_image-wrap">
-            <div id="i_image" class="c_image">
-            </div>
         </div>
         <div id="i_subtitles-wrap" class="c_subtitles-wrap">
             <div id="i_subtitles" class="c_subtitles">
@@ -112,25 +142,6 @@
     loadScript('/git/letter/docs/js/nextText.js', function() {
         nextText();
     });
-    logging('ajax', 'start');
-    getByAjax('/git/letter/test/docs/template/data/aaa.txt');
-
-    /**
-     * Ajaxを利用してソースを取得する
-     */
-    function getByAjax(path) {
-        var xhr = new XMLHttpRequest();
-        loggingObj('ajax', xhr);
-
-        xhr.open('GET', path);
-        xhr.send();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-
-                //データを取得後の処理を書く
-            }
-        }
-    }
 
     /**
      * srcの読み込みを待ってからcallbackを実行する
@@ -156,28 +167,6 @@
         };
     }
 
-    /**
-     * ログUtil
-     */
-    function logging(processName, message) {
-        console.log('[' + processName + '] ' + message);
-    }
-
-    var loggingMarkCount = 0;
-    /**
-     * ログUtil(目立つラインをつけて目印にする)
-     */
-    function loggingMark(message) {
-        console.log(++loggingMarkCount + '----------------------------------------- ' + message + ' ----------------------------------------- ');
-    }
-
-    /**
-     * ログUtil(オブジェクトの内容出力)
-     */
-    function loggingObj(processName, object) {
-        console.log('[' + processName + '] ');
-        console.dir(object);
-    }
     </script>
 </body>
 

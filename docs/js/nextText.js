@@ -1,3 +1,5 @@
+logging('nextText.js', 'loaded');
+
 var currentDispTextIndex = 0;
 
 function nextText() {
@@ -137,6 +139,7 @@ var animate = {
                 throw new Error("表示情報形式不正：typeが想定外値");
                 break;
         }
+        addAjaxFormEvent();
         show(animate.formEle);
     },
 
@@ -209,12 +212,12 @@ var animate = {
      */
     buildTextAreaForm: function() {
         // 初期値設定：開始タグ
-        return '<form id="i_subsForm" class="c_subsForm_textarea">\
+        return '<form id="i_subsForm" class="c_subsForm_textarea" onsubmit="console.log(\'pushed btn\');return false;">\
         <label> ' + animate.dispInfo.label +
             '<textarea cols="' + animate.dispInfo.cols + '" rows="' + animate.dispInfo.rows + '" maxLength="' + animate.dispInfo.maxlength + '" name="f_textarea" class="c_f_textarea">' +
             animate.dispInfo.initValue +
             '</textarea></label><br>\
-            <button type="submit" name="example" value="ボタン">ボタンの内容</button></form>';
+            <button id="i_subsForm_btn" method="get" type="submit" name="example" ajax_url="/git/letter/test/docs/template/ajaxResponse.html" value="ボタン">button</button></form>';
     }
 }
 
@@ -265,7 +268,10 @@ function amountOfZenkaku(str) {
 }
 
 /**
- * 
+ * 対象タグの初期化を行う
+ * ・コンテンツを空にする
+ * ・対象タグのshowクラスを削除する
+ * ・対象タグを隠す
  */
 function initWhenClicked(_$) {
     logging('init : _$.html', _$.html());

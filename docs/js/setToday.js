@@ -1,3 +1,5 @@
+logging('setToday.js', 'loaded');
+
 /*
  * idがtodayの要素の値を現在情報に設定する
  */
