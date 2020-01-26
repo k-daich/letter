@@ -13,8 +13,8 @@ function nextText() {
 
     loadScript('/git/letter/docs/js/sentence/20200119.js', function() {
         // subtitles-wrapをクリックされた場合のイベントリスナーを追加
+        $('#i_subtitles-wrap').on("touchstart", mdown);
         $('#i_subtitles-wrap').on("mousedown", mdown);
-        $('#i_subtitles-wrap').on("touchend", mdown);
     });
 }
 
@@ -231,7 +231,7 @@ function repalaceAt(str, index, char) {
 
 // マウスダウンした時に発火
 function mdown(event) {
-    logging('mdown', 'start');
+    logging('mdown', 'start by ' + event.type);
     // 二重起動中は何もしない
     if (animate.isDuplicate) {
         return;
