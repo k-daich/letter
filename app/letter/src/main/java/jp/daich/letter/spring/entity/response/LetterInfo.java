@@ -2,25 +2,35 @@ package jp.daich.letter.spring.entity.response;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
 
 /***
- * dispInfo
+ * LetterInfo
  *
  */
-public class DispInfo implements Serializable {
+@Component
+public class LetterInfo implements Serializable {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -29398226870834526L;
 
-	/** 
+	/**
 	 * constructor for Test
 	 */
-	public DispInfo() {
+	public LetterInfo() {
 		type = "test:type";
 		image = "test:imgage";
 		text = "test:text";
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	/** type */
@@ -31,6 +41,9 @@ public class DispInfo implements Serializable {
 
 	/** text */
 	private String text;
+
+	/** id */
+	private String id;
 
 	public String getType() {
 		return type;
