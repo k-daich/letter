@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LetterInfo implements Serializable {
 
-	/**
-	 *
-	 */
+	/**	serialVersionUID */
 	private static final long serialVersionUID = -29398226870834526L;
 
 	/**
