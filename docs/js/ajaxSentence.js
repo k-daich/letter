@@ -9,6 +9,7 @@ function loadSentence() {
 
     // TODO : get from GET param
     var _url = 'http://localhost:8080/letter?id=2284';
+    // var _url = '/letter?id=2284';
 
 
     // 送信
