@@ -11,7 +11,7 @@ function nextText() {
     animate.formEle = $('#i_subsForm-wrap');
     loggingObj('animate.formEle', animate.formEle);
 
-    loadScript('/git/letter/docs/js/sentence/20200119.js', function() {
+    loadScript('/letter/js/ajaxSentence.js', function() {
         // subtitles-wrapをクリックされた場合のイベントリスナーを追加
         $('#i_subtitles-wrap').on("touchstart", mdown);
         $('#i_subtitles-wrap').on("mousedown", mdown);
@@ -56,7 +56,7 @@ var animate = {
     dispImage: function() {
         logging('dispImage: image', animate.dispInfo.image);
         if (animate.dispInfo.image != "") {
-            animate.imageEle.html('<img border="0" src="/git/letter/docs/img/' + animate.dispInfo.image + '" width="128" height="128" alt="イラスト1">');
+            animate.imageEle.html('<img border="0" src="/letter/img/' + animate.dispInfo.image + '" width="128" height="128" alt="イラスト1">');
             // 隠されていたイメージ要素を見せる
             setTimeout(show , 1000, animate.imageEle);
         }

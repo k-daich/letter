@@ -1,21 +1,33 @@
 logging('ajaxSentence.js', 'loaded');
-loadSentence();
+
+var TYPE = {
+    noInput: 1,
+    radio: 2,
+    select: 3,
+    checkBox: 4,
+    textBox: 5,
+    textArea: 6
+}
+
+// グローバル変数として表示情報を保持させる
+var dispInfoArray = loadSentence();
 
 /**
  * フォームのAjax送信処理
  */
 function loadSentence() {
     logging('loadSentence', 'start');
+    var ajax_res;
 
     // TODO : get from GET param
-    var _url = 'http://localhost:8080/letter?id=2284';
+    // var _url = 'http://localhost:8080/letter?id=2284';
+    var _url = '/app/letter?sentence_id=903';
 
 
     // 送信
     $.ajax({
         url: _url,
         type: 'GET',
-        // data: $button.serialize(),
 
         // 送信前
         beforeSend: function(xhr, settings) {
@@ -29,8 +41,9 @@ function loadSentence() {
         // 通信成功時の処理
         success: function(result, textStatus, xhr) {
             logging('loadSentence : ajax', 'success');
+            ajax_res = result;
             // 入力値を初期化
-            logging('loadSentence : result' , result);
+            loggingObj('loadSentence : result' , result);
         },
 
         // 通信失敗時の処理
@@ -38,4 +51,5 @@ function loadSentence() {
             logging('ajaxForm : ajaxError', error);
         }
     });
+    return ajax_res;
 }
