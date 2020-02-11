@@ -20,9 +20,7 @@ function loadSentence() {
     var ajax_res;
 
     // TODO : get from GET param
-    // var _url = 'http://localhost:8080/letter?id=2284';
     var _url = '/app/letter?sentence_id=903';
-
 
     // 送信
     $.ajax({

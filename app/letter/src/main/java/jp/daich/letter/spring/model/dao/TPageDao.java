@@ -1,5 +1,6 @@
 package jp.daich.letter.spring.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Component;
 import jp.daich.letter.spring.model.dao.base.BaseDao;
 
 @Component
-public class TSentenceDao extends BaseDao {
+public class TPageDao extends BaseDao {
 
     /**
      * return tableName
@@ -16,16 +17,17 @@ public class TSentenceDao extends BaseDao {
      */
     @Override
     protected String getTableName() {
-        return "t_sentence";
+        return "t_page";
     }
 
     /**
-     * sentence_idを条件に検索する。 検索結果が1件以外であれば例外を投げる。
      * 
      * @param id
      * @return
      */
-    public Map<String, Object> getById(String sentence_id) {
-        return findOne("select * from " + getTableName() + " where sentence_id = " + sentence_id);
+    public List<Map<String, Object>> getBySentence_id(final String sentence_id) {
+        return findList("select * from " + getTableName() + " where fk_sentence_id = " + sentence_id
+                + " order by page_of_sentence");
     }
+
 }

@@ -1,40 +1,60 @@
 package jp.daich.letter.spring.model.procedure;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import jp.daich.letter.spring.entity.TPage;
+import jp.daich.letter.spring.entity.TSentence;
 import jp.daich.letter.spring.entity.response.LetterInfo;
+import jp.daich.letter.spring.model.dao.TPageDao;
 import jp.daich.letter.spring.model.dao.TSentenceDao;
 
 @Component
 public class CreateLetterInfoProcedure {
 
     @Autowired
-    private LetterInfo info;
+    private LetterInfo letterInfo;
 
     @Autowired
     private TSentenceDao tSentenceDao;
 
-    public LetterInfo create(String id) {
+    @Autowired
+    private TPageDao tPageDao;
 
-        List<Map<String, Object>> tSentence = tSentenceDao.getById(id);
+    public LetterInfo execute(String sentence_id) {
+        // レスポンス用のオブジェクトにTSentenceの情報を設定する
+        letterInfo.setTSentenceValues(
+                // 取得したエンティティからTSentenceオブジェクトを構築する
+                TSentence.build(
+                        // TSentenceテーブルをSELECT
+                        tSentenceDao.getById(sentence_id)));
 
-        if (tSentence.size() == 1) {
-            // debug keyset of resultSetKey
-            System.out.println(tSentence.get(0).get("title"));
-            info.setId(id);
-            info.setText((String)tSentence.get(0).get("title"));
-        }
-        else {
-            // debug
-            System.out.println("tSentenceDao.getById(id) is not Found. id = " + id);
-            info.setId("");
-        }
+        // レスポンス用のオブジェクトにTpageリストを設定する
+        letterInfo.settPageList(
+                // 取得したエンティティからTPageオブジェクトのリストを構築する
+                buildTPageList(
+                        // TPageテーブルをSELECT
+                        tPageDao.getBySentence_id(
+                                // TSentenceテーブルのsentence_id
+                                letterInfo.getSentence_id())));
 
-        return info;
+        return letterInfo;
     }
 
+    /**
+     * Daoの結果Listを元にTpageオブジェクトのListを構築する
+     * @param entityList
+     * @return
+     */
+    private List<TPage> buildTPageList(List<Map<String, Object>> entityList) {
+        List<TPage> tpl = new ArrayList<>();
+        for (Map<String, Object> row : entityList) {
+            tpl.add(TPage.build(row));
+        }
+        return tpl;
+    }
 }

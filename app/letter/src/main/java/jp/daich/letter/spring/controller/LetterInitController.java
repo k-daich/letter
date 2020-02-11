@@ -18,13 +18,13 @@ public class LetterInitController {
     @Autowired
     CreateLetterInfoProcedure createLetterInfoProcedure;
 
-    @RequestMapping(path = "/letter", method = RequestMethod.GET)
-    public ResponseEntity<LetterInfo> letterInit(@RequestParam("id") String id) {
-        System.out.print("letterInit : start");
+    @RequestMapping(path = "/app/letter", method = RequestMethod.GET)
+    public ResponseEntity<LetterInfo> letterInit(@RequestParam("sentence_id") String sentence_id) {
+        System.out.println("letterInit : start");
 
         return ResponseEntity.ok(
                 // LetterInfoの生成
-                createLetterInfoProcedure.create(id));
+                createLetterInfoProcedure.execute(sentence_id));
     }
 
 }
