@@ -9,13 +9,13 @@ var TYPE = {
     textArea: 6
 }
 
-// グローバル変数として表示情報を保持させる
-var dispInfoArray = loadSentence();
+// ajaxの結果オブジェクトを格納する変数
+var gl_sentence;
 
 /**
  * フォームのAjax送信処理
  */
-function loadSentence() {
+(function () {
     logging('loadSentence', 'start');
     var ajax_res;
 
@@ -24,8 +24,10 @@ function loadSentence() {
 
     // 送信
     $.ajax({
-        url: _url,
         type: 'GET',
+        url: _url,
+        // ajaxレスポンスオブジェクトをリターンさせたいので非同期で実施する
+        async: false,
 
         // 送信前
         beforeSend: function(xhr, settings) {
@@ -39,9 +41,9 @@ function loadSentence() {
         // 通信成功時の処理
         success: function(result, textStatus, xhr) {
             logging('loadSentence : ajax', 'success');
-            ajax_res = result;
             // 入力値を初期化
-            loggingObj('loadSentence : result' , result);
+            loggingObj('loadSentence : result', result);
+            gl_sentence = result;
         },
 
         // 通信失敗時の処理
@@ -49,5 +51,4 @@ function loadSentence() {
             logging('ajaxForm : ajaxError', error);
         }
     });
-    return ajax_res;
-}
+})();

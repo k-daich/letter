@@ -1,7 +1,6 @@
 logging('nextText.js', 'loaded');
 
 var currentDispTextIndex = 0;
-
 function nextText() {
     logging('nextText.js', 'start');
     animate.imageEle = $('#i_image-wrap');
@@ -11,7 +10,7 @@ function nextText() {
     animate.formEle = $('#i_subsForm-wrap');
     loggingObj('animate.formEle', animate.formEle);
 
-    loadScript('/letter/js/ajaxSentence.js', function() {
+    loadScript('/letter/js/ajaxSentence.js?query=1', function() {
         // subtitles-wrapをクリックされた場合のイベントリスナーを追加
         $('#i_subtitles-wrap').on("touchstart", mdown);
         $('#i_subtitles-wrap').on("mousedown", mdown);
@@ -31,7 +30,7 @@ var animate = {
     // 二重起動フラグ
     isDuplicate: false,
     // 表示する情報
-    dispInfo: null,
+    pageInfo: null,
     // イメージ表示箇所
     imageEle: null,
     // テキスト表示箇所
@@ -45,18 +44,18 @@ var animate = {
         // 処理中フラグを立てる
         animate.isRunning = true;
         animate.dispImage();
-        animate.nbspSet(animate.dispInfo.text.split(/\n/));
-        logging('replStr', animate.dispInfo.text.replace(/\n/g, ''));
-        animate.dispLikeTypeWriter(0, Array.from(animate.dispInfo.text.replace(/\n/g, '')));
+        animate.nbspSet(animate.pageInfo.text.split(/\n/));
+        logging('replStr', animate.pageInfo.text.replace(/\n/g, ''));
+        animate.dispLikeTypeWriter(0, Array.from(animate.pageInfo.text.replace(/\n/g, '')));
     },
 
     /*
      * 画像を表示する
      */
     dispImage: function() {
-        logging('dispImage: image', animate.dispInfo.image);
-        if (animate.dispInfo.image != "") {
-            animate.imageEle.html('<img border="0" src="/letter/img/' + animate.dispInfo.image + '" width="128" height="128" alt="イラスト1">');
+        logging('dispImage: image', animate.pageInfo.image);
+        if (animate.pageInfo.image != "") {
+            animate.imageEle.html('<img border="0" src="/letter/img/' + animate.pageInfo.image + '" width="128" height="128" alt="イラスト1">');
             // 隠されていたイメージ要素を見せる
             setTimeout(show , 1000, animate.imageEle);
         }
@@ -102,7 +101,7 @@ var animate = {
      * 即時に文字を全表示する
      */
     allDisp: function() {
-        animate.textEle.html(animate.dispInfo.text.replace(/\n/g, '<br>'));
+        animate.textEle.html(animate.pageInfo.text.replace(/\n/g, '<br>'));
         // 二重起動フラグを落とす
         animate.isDuplicate = false;
     },
@@ -111,7 +110,7 @@ var animate = {
      * 即時に文字を全表示する
      */
     dispForm: function() {
-        switch (animate.dispInfo.type) {
+        switch (animate.pageInfo.form_type) {
             case TYPE.noInput:
                 logging('dispForm', 'TYPE.noInput');
                 break;
@@ -136,7 +135,7 @@ var animate = {
                 animate.formEle.html(animate.buildTextAreaForm());
                 break;
             default:
-                logging('dispForm', 'TYPE is unExpected : ' + animate.dispInfo.type);
+                logging('dispForm', 'TYPE is unExpected : ' + animate.pageInfo.form_type);
                 throw new Error("表示情報形式不正：typeが想定外値");
                 break;
         }
@@ -152,7 +151,7 @@ var animate = {
         var sBuild = '<form id="i_subsForm" class="c_subsForm_radio">';
 
         // データ分繰り返し：ラジオボタン
-        for (var c of animate.dispInfo.choice) {
+        for (var c of animate.pageInfo.choice) {
             sBuild = sBuild + '<input name="f_radio" type="radio" value="' + c.value + '" class="c_f_radio"><label>' + c.label + '</label>';
         }
         // 閉じタグ
@@ -167,7 +166,7 @@ var animate = {
         var sBuild = '<form id="i_subsForm" class="c_subsForm_select"><select name="f_select">';
 
         // データ分繰り返し：セレクトボタン
-        for (var c of animate.dispInfo.choice) {
+        for (var c of animate.pageInfo.choice) {
             sBuild = sBuild + '<option value="' + c.value + '" class="c_f_select">' + c.label + '</option>';
         }
         // 閉じタグ
@@ -182,7 +181,7 @@ var animate = {
         var sBuild = '<form id="i_subsForm" class="c_subsForm_checkbox">';
 
         // データ分繰り返し：チェックボックス
-        for (var c of animate.dispInfo.choice) {
+        for (var c of animate.pageInfo.choice) {
             sBuild = sBuild + '<input type="checkbox" name="f_checkbox" value="' + c.value + '" class="c_f_checkbox"><label>' + c.label + '</label></input>';
         }
         // 閉じタグ
@@ -198,11 +197,11 @@ var animate = {
         var sBuild = '<form id="i_subsForm" class="c_subsForm_textbox">';
 
         // データ分繰り返し：テキストボックス
-        for (var i in animate.dispInfo.inputs) {
+        for (var i in animate.pageInfo.inputs) {
             // 最初のデータ以外の場合：brを入れる
             if (i != 0) sBuild = sBuild + '<br>';
             // inputタグの追加
-            sBuild = sBuild + '<label>' + animate.dispInfo.inputs[i].label + '</label><input type="text" name="f_textbox" value="' + animate.dispInfo.inputs[i].initValue + '" maxlength="' + animate.dispInfo.inputs[i].maxLength + '" class="c_f_textbox"></input>';
+            sBuild = sBuild + '<label>' + animate.pageInfo.inputs[i].label + '</label><input type="text" name="f_textbox" value="' + animate.pageInfo.inputs[i].initValue + '" maxlength="' + animate.pageInfo.inputs[i].maxLength + '" class="c_f_textbox"></input>';
         }
         // 閉じタグ
         return sBuild + '</form>';
@@ -214,9 +213,9 @@ var animate = {
     buildTextAreaForm: function() {
         // 初期値設定：開始タグ
         return '<form id="i_subsForm" class="c_subsForm_textarea" onsubmit="console.log(\'pushed btn\');return false;">\
-        <label> ' + animate.dispInfo.label +
-            '<textarea cols="' + animate.dispInfo.cols + '" rows="' + animate.dispInfo.rows + '" maxLength="' + animate.dispInfo.maxlength + '" name="f_textarea" class="c_f_textarea">' +
-            animate.dispInfo.initValue +
+        <label> ' + animate.pageInfo.label +
+            '<textarea cols="' + animate.pageInfo.cols + '" rows="' + animate.pageInfo.rows + '" maxLength="' + animate.pageInfo.maxlength + '" name="f_textarea" class="c_f_textarea">' +
+            animate.pageInfo.initValue +
             '</textarea></label><br>\
             <button id="i_subsForm_btn" method="get" type="submit" name="example" ajax_url="/git/letter/test/docs/template/ajaxResponse.html" value="ボタン">button</button></form>';
     }
@@ -232,6 +231,7 @@ function repalaceAt(str, index, char) {
 // マウスダウンした時に発火
 function mdown(event) {
     logging('mdown', 'start by ' + event.type);
+    loggingObj('mdown : gl_sentence' , gl_sentence);
     // 二重起動中は何もしない
     if (animate.isDuplicate) {
         return;
@@ -247,13 +247,13 @@ function mdown(event) {
     // 上記以外
     else {
         // 現在の表示が文章の最後だった場合は処理終了
-        if (dispInfoArray.length == currentDispTextIndex) return;
+        if (gl_sentence.tPageList.length == currentDispTextIndex) return;
         // イメージ要素を初期化
         initWhenClicked(animate.imageEle);
         // フォーム要素を初期化
         initWhenClicked(animate.formEle);
         // 次の表示情報を設定する
-        animate.dispInfo = dispInfoArray[currentDispTextIndex++];
+        animate.pageInfo = gl_sentence.tPageList[currentDispTextIndex++];
         // 表示処理を実行する
         animate.run();
     }
