@@ -1,14 +1,20 @@
-package jp.daich.letter.spring.model.dao;
+package jp.daich.letter.spring.model.db.dao;
 
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.stereotype.Component;
 
-import jp.daich.letter.spring.model.dao.base.BaseDao;
+import jp.daich.letter.spring.model.db.dao.base.BaseDao;
 
 @Component
 public class TPageDao extends BaseDao {
+
+    protected TPageDao(EntityManager em) {
+        super(em);
+    }
 
     /**
      * return tableName

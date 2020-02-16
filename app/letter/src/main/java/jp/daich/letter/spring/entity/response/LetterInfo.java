@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import jp.daich.letter.spring.entity.TPage;
-import jp.daich.letter.spring.entity.TSentence;
+import jp.daich.letter.spring.model.db.entity.TPage;
+import jp.daich.letter.spring.model.db.entity.TSentence;
 
 /***
  * LetterInfo

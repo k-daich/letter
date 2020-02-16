@@ -1,14 +1,24 @@
-package jp.daich.letter.spring.entity;
+package jp.daich.letter.spring.model.db.entity;
 
 import java.util.Date;
 import java.util.Map;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+
+@Entity
 public class TSentence {
 
+    @Id
     private String sentence_id;
+    @NotEmpty
     private String title;
+    @NotEmpty
     private String sender;
+    @NotEmpty
     private String destination;
+    @NotEmpty
     private Date create_date;
 
     /**

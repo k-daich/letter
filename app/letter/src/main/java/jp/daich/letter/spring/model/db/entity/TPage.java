@@ -1,4 +1,4 @@
-package jp.daich.letter.spring.entity;
+package jp.daich.letter.spring.model.db.entity;
 
 import java.util.Map;
 

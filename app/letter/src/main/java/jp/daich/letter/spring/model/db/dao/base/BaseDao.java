@@ -1,12 +1,25 @@
-package jp.daich.letter.spring.model.dao.base;
+package jp.daich.letter.spring.model.db.dao.base;
 
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+@Repository
 abstract public class BaseDao {
+
+    protected EntityManager em;
+
+    /**
+     * Constructor with EntityManager
+     */
+    protected BaseDao(EntityManager em) {
+        this.em = em;
+    }
 
     @Autowired
     protected JdbcTemplate jdbcTemplate;
@@ -24,21 +37,19 @@ abstract public class BaseDao {
      * @param query
      * @return one row
      */
-    protected Map<String, Object> findOne(String query) {
-        List<Map<String, Object>> resultSet = jdbcTemplate.queryForList(query);
-
+    protected void assertOneRecord(List<Object> resultSet) {
         // 検索結果：1件
         if (resultSet.size() == 1) {
-            return resultSet.get(0);
+            return;
         } else {
             // 検索結果：0件
             if (resultSet.size() == 0) {
-                throw new RuntimeException("findOne(query) is not Found. query = " + query);
+                throw new RuntimeException("resultSet is not Found.");
             }
             // 検索結果：2件以上
             else {
                 throw new RuntimeException(
-                        "findOne(query) is found some row. query = " + query + ", and row size = " + resultSet.size());
+                        "resultSet is found some row. row size = " + resultSet.size());
             }
         }
     }
