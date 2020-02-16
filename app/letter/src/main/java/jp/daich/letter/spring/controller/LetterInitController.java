@@ -19,8 +19,8 @@ public class LetterInitController {
     CreateLetterInfoProcedure createLetterInfoProcedure;
 
     @RequestMapping(path = "/app/letter", method = RequestMethod.GET)
-    public ResponseEntity<LetterInfo> letterInit(@RequestParam("sentence_id") String sentence_id) {
-        System.out.println("letterInit : start");
+    public ResponseEntity<LetterInfo> execute(@RequestParam("sentence_id") String sentence_id) {
+        System.out.println("LetterInitController : start");
 
         return ResponseEntity.ok(
                 // LetterInfoの生成

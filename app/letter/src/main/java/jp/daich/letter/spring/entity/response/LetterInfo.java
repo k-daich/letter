@@ -29,7 +29,7 @@ public class LetterInfo implements Serializable {
 	/**
 	 * constructor for Test
 	 */
-	public LetterInfo() {
+	private LetterInfo() {
 	}
 
 	/**
