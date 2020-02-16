@@ -2,16 +2,126 @@
 <html>
 
 <head>
+    <script type="text/javascript">
+    /**
+     * ログUtil
+     */
+    function logging(processName, message) {
+        console.log('[' + processName + '] ' + message);
+    }
+
+    var loggingMarkCount = 0;
+    /**
+     * ログUtil(目立つラインをつけて目印にする)
+     */
+    function loggingMark(message) {
+        console.log(++loggingMarkCount + '----------------------------------------- ' + message + ' ----------------------------------------- ');
+    }
+
+    /**
+     * ログUtil(オブジェクトの内容出力)
+     */
+    function loggingObj(processName, object) {
+        console.log('[' + processName + '] ');
+        console.dir(object);
+    }
+    </script>
+    <script type="text/javascript" src="/letter/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="/letter/js/setToday.js"></script>
+    <script type="text/javascript" src="/letter/js/ajaxForm.js"></script>
+    <meta charset="utf-8" />
     <title>letter</title>
     <style>
         :root {
             --baseColor: rgba(238,238,238,1);
             --baseColor_bg: rgb(23, 24, 28);
+            --baseColor_border: rgb(88 ,88 ,88);
         }
 
         body {
             color : var(--baseColor);
+            font-family: "ＭＳ 明朝",sans-serif;
+            font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            /*background : -webkit-radial-gradient(center top, ellipse cover, rgba(32,74,135,0.8) 20%,rgba(0,0,0,0));*/
+            /*background-image : radial-gradient(ellipse at center top, rgba(32,74,135,0.8) 20%, rgba(0,0,0,0) 100%);*/
             background: var(--baseColor_bg);
+        }
+
+        .date {
+            position : absolute;
+            top : 2vh;
+            right : 4vw;
+        }
+
+        .c_subtitles-wrap {
+            position : absolute;
+            display : table;
+            bottom : 40vh;
+            left: 10vw;
+            min-height: 20vh;
+            width : 80vw;
+            border : solid var(--baseColor_border);
+        }
+
+        .c_subtitles {
+            display : table-cell;
+            font-family: "ＭＳ ゴシック",sans-serif;
+            /*background: linear-gradient(180deg ,var(--baseColor_bg) , var(--baseColor) 80%);*/
+            background: linear-gradient(180deg ,var(--baseColor_bg) , var(--baseColor) 0%);
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .c_subsForm-wrap {
+            position : absolute;
+            bottom : 10vh;
+            left: 20vw;
+            min-height: 20vh;
+            width : 60vw;
+            border : solid var(--baseColor_border);
+            transition : 2s;
+            /*background: rgb(255,255,255);*/
+        }
+
+        .c_subsForm_radio {
+            /*display: inline-block;*/
+            width: 100%;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .c_subsForm_radio > label {
+            width: auto;
+            padding : 0 20px;
+        }
+
+        .hide{
+            display: none;
+        }
+
+        @keyframes show{
+            from{
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+            }
+        }
+
+        .show{
+            animation: show 1s linear 0s;
+        }
+
+        .c_image-wrap > img {
+            position : absolute;
+            top : 0;
+            bottom : 0;
+            left : 0;
+            right : 0;
+            margin : auto;
+            z-index: -1;
         }
 
         .title {
@@ -19,20 +129,53 @@
             bottom : 4vh;
             right : 10vw;
         }
-
     </style>
 </head>
 
 <body>
     <main>
-        <div class="post">
-            <img src="./">
+        <div id="today" class="date">
+        </div>
+        <div id="i_image-wrap" class="c_image-wrap">
+        </div>
+        <div id="i_subtitles-wrap" class="c_subtitles-wrap">
+            <div id="i_subtitles" class="c_subtitles">
+            </div>
+        </div>
+        <div id="i_subsForm-wrap" class="c_subsForm-wrap">
         </div>
         <div class="title">
             <h2>letter</h2>
         </div>
     </main>
     <script type="text/javascript">
+    loadScript('/letter/js/nextText.js?query=2020_0126_1028', function() {
+        nextText();
+    });
+
+    /**
+     * srcの読み込みを待ってからcallbackを実行する
+     */
+    function loadScript(src, callback) {
+        var done = false;
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.src = src;
+        head.appendChild(script);
+        // Attach handlers for all browsers
+        script.onload = script.onreadystatechange = function() {
+            if (!done && (!this.readyState ||
+                    this.readyState === "loaded" || this.readyState === "complete")) {
+                done = true;
+                callback();
+                // Handle memory leak in IE
+                script.onload = script.onreadystatechange = null;
+                if (head && script.parentNode) {
+                    head.removeChild(script);
+                }
+            }
+        };
+    }
     </script>
 </body>
 

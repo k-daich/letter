@@ -1,22 +1,33 @@
 logging('ajaxSentence.js', 'loaded');
-loadSentence();
+
+var TYPE = {
+    noInput: 1,
+    radio: 2,
+    select: 3,
+    checkBox: 4,
+    textBox: 5,
+    textArea: 6
+}
+
+// ajaxの結果オブジェクトを格納する変数
+var gl_sentence;
 
 /**
  * フォームのAjax送信処理
  */
-function loadSentence() {
+(function () {
     logging('loadSentence', 'start');
+    var ajax_res;
 
     // TODO : get from GET param
-    var _url = 'http://localhost:8080/letter?id=2284';
-    // var _url = '/letter?id=2284';
-
+    var _url = '/app/letter?sentence_id=903';
 
     // 送信
     $.ajax({
-        url: _url,
         type: 'GET',
-        // data: $button.serialize(),
+        url: _url,
+        // ajaxレスポンスオブジェクトをリターンさせたいので非同期で実施する
+        async: false,
 
         // 送信前
         beforeSend: function(xhr, settings) {
@@ -31,7 +42,8 @@ function loadSentence() {
         success: function(result, textStatus, xhr) {
             logging('loadSentence : ajax', 'success');
             // 入力値を初期化
-            logging('loadSentence : result' , result);
+            loggingObj('loadSentence : result', result);
+            gl_sentence = result;
         },
 
         // 通信失敗時の処理
@@ -39,4 +51,4 @@ function loadSentence() {
             logging('ajaxForm : ajaxError', error);
         }
     });
-}
+})();

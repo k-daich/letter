@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>letter</title>
+    <style>
+        :root {
+            --baseColor: rgba(238,238,238,1);
+            --baseColor_bg: rgb(23, 24, 28);
+        }
+
+        body {
+            color : var(--baseColor);
+            background: var(--baseColor_bg);
+        }
+
+        .title {
+            position : fixed;
+            bottom : 4vh;
+            right : 10vw;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="sentence_form">
+            <form id="i_sentence_form" class="c_sentence_form"  action="/app/letter/regist" method="post">
+                <label>タイトル</label><input type="text" name="title" value="" maxlength="16" class="c_title"></input><br>
+                <label>差出人</label><input type="text" name="sender" value="" maxlength="16" class="c_sender"></input><br>
+                <label>宛て先</label><input type="text" name="destination" value="" maxlength="16" class="c_destination"></input><br>
+                <div class="page1_form">
+                    <label>文章</label><textarea cols=52 rows=3 maxLength=512 name="text" class="c_text"></textarea><br>
+                    <label>画像</label><input type="text" name="image" value="" maxlength="16" class="c_image"></input><br>
+                    <label>入力フォーム</label><select name="select">
+                        <option value="1" class="c_form_type_option">無し</option>
+                        <option value="2" class="c_form_type_option">ラジオボタン</option>
+                        <option value="3" class="c_form_type_option">セレクトボックス</option>
+                        <option value="4" class="c_form_type_option">チェックボックス</option>
+                        <option value="5" class="c_form_type_option">テキストボックス</option>
+                        <option value="6" class="c_form_type_option">テキストエリア</option>
+                    </select><br>
+                </div>
+                <button type="submit" name="n_sentence_form_btn" value="regist">登録</button>
+            </form>
+        </div>
+        <div class="title">
+            <h2>regist letter</h2>
+        </div>
+    </main>
+    <script type="text/javascript">
+    </script>
+</body>
+
+</html>
