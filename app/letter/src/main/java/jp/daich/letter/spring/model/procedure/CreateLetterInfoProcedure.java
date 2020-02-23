@@ -39,17 +39,8 @@ public class CreateLetterInfoProcedure {
 
         // レスポンス用のオブジェクトにTSentenceの情報を設定する
         letterInfo.setTSentenceValues(
-                // 取得したエンティティからTSentenceオブジェクトを構築する
-                // TSentence.build(
                 // TSentenceテーブルをSELECT
                 tSentenceRepo.findBySentence_id(sentence_id).next());
-
-        // // レスポンス用のオブジェクトにTSentenceの情報を設定する
-        // letterInfo.setTSentenceValues(
-        // // 取得したエンティティからTSentenceオブジェクトを構築する
-        // // TSentence.build(
-        // // TSentenceテーブルをSELECT
-        // tSentenceDao.getById(sentence_id));
 
         // レスポンス用のオブジェクトにTpageリストを設定する
         letterInfo.settPageList(

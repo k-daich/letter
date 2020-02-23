@@ -4,6 +4,7 @@
         <Property name="LOG_PATTERN">
             %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
         </Property>
+        <!-- <Property name="logfile">${log.home}\debug.log</Property> -->
         <Property name="logfile">C:\work\tools\apache-tomcat-8.5.50\logs\apl\letter\debug.log</Property>
     </Properties>
     <Appenders>

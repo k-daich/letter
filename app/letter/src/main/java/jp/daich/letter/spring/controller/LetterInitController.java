@@ -26,7 +26,7 @@ public class LetterInitController {
     public ResponseEntity<LetterInfo> execute(@RequestParam("sentence_id") String sentence_id) {
         
         System.out.println("LetterInitController : start");
-        logger.debug("[LetterInitController-execute] : start");
+        logger.error("[LetterInitController-execute] : start");
 
         return ResponseEntity.ok(
                 // LetterInfoの生成

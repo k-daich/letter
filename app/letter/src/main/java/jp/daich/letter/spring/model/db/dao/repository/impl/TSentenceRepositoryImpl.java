@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import jp.daich.letter.spring.model.db.dao.repository.TSentenceRepository;
 import jp.daich.letter.spring.model.db.entity.T_Sentence;
-import jp.daich.letter.spring.model.db.entity.metamodel.T_Sentence_;
+import jp.daich.letter.spring.model.db.entity.T_Sentence_;
 
 @Component
 public class TSentenceRepositoryImpl implements TSentenceRepository {
@@ -24,11 +24,11 @@ public class TSentenceRepositoryImpl implements TSentenceRepository {
         final CriteriaBuilder cb = em.getCriteriaBuilder();
         final CriteriaQuery<T_Sentence> query = cb.createQuery(T_Sentence.class);
         final Root<T_Sentence> root = query.from(T_Sentence.class);
- 
-        query.where(
-            cb.equal(root.get(T_Sentence_.sentence_id), sentence_id));
- 
-        return (Iterator<T_Sentence>)em.createQuery(query).getResultList();
+
+        query.where( //
+                cb.equal(root.get(T_Sentence_.sentence_id), sentence_id));
+
+        return (Iterator<T_Sentence>) em.createQuery(query).getResultList().iterator();
     }
 
 }

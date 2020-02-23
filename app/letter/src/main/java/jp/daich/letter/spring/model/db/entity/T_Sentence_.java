@@ -1,12 +1,10 @@
-package jp.daich.letter.spring.model.db.entity.metamodel;
+package jp.daich.letter.spring.model.db.entity;
 
 import java.util.Date;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
-import jp.daich.letter.spring.model.db.entity.T_Sentence;
 
 @Generated(value="vsCode", date="2020/02/22")
 @StaticMetamodel(T_Sentence.class)

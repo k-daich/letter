@@ -5,11 +5,10 @@ import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name="T_SENTENCE")
+// @Table(name="T_SENTENCE")
 public class T_Sentence {
 
     @Id
