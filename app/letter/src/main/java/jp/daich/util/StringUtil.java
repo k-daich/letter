@@ -30,4 +30,15 @@ public class StringUtil {
         return !isEmpty(str);
     }
 
+    /**
+     * 長さチェック
+     * @param str
+     */
+    public static void assertLength(String str, int min , int max){
+        if (str.length() < min ||
+        str.length() > max) {
+            throw new RuntimeException("Form長さエラー : " + str);
+        }
+    }
+
 }

@@ -24,7 +24,7 @@ public class LetterInitController {
 
     @RequestMapping(path = "/app/letter", method = RequestMethod.GET)
     public ResponseEntity<LetterInfo> execute(@RequestParam("sentence_id") String sentence_id) {
-        
+
         System.out.println("LetterInitController : start");
         logger.error("[LetterInitController-execute] : start");
 

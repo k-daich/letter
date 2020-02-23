@@ -20,7 +20,7 @@ public class TSentenceRepositoryImpl implements TSentenceRepository {
     @PersistenceContext
     EntityManager em;
 
-    public Iterator<T_Sentence> findBySentence_id(final String sentence_id) {
+    public T_Sentence findBySentence_id(final String sentence_id) {
         final CriteriaBuilder cb = em.getCriteriaBuilder();
         final CriteriaQuery<T_Sentence> query = cb.createQuery(T_Sentence.class);
         final Root<T_Sentence> root = query.from(T_Sentence.class);
@@ -28,7 +28,7 @@ public class TSentenceRepositoryImpl implements TSentenceRepository {
         query.where( //
                 cb.equal(root.get(T_Sentence_.sentence_id), sentence_id));
 
-        return (Iterator<T_Sentence>) em.createQuery(query).getResultList().iterator();
+        return (T_Sentence) em.createQuery(query).getSingleResult();
     }
 
 }

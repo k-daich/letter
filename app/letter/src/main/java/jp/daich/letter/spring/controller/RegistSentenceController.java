@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.daich.letter.spring.entity.request.RegistSentenceForm;
+import jp.daich.letter.spring.model.Path;
 import jp.daich.util.StringUtil;
 
 @Controller
@@ -30,7 +31,7 @@ public class RegistSentenceController {
         ModelAndView mv = new ModelAndView();
 
         // テンプレートを指定
-        mv.setViewName("letter/regist");
+        mv.setViewName(Path.URL.REGIST_RESULT.getUrl());
 
         // レスポンスビューにフォームを持たせる
         mv.addObject("requestForm", form);
@@ -45,9 +46,9 @@ public class RegistSentenceController {
     private void assertRequestForm(RegistSentenceForm form) {
         required(form);
 
-        assertLength(form.getTitle(), 0 , 16);
-        assertLength(form.getSender(), 0 , 16);
-        assertLength(form.getDestination(), 0 , 16);
+        StringUtil.assertLength(form.getTitle(), 0 , 16);
+        StringUtil.assertLength(form.getSender(), 0 , 16);
+        StringUtil.assertLength(form.getDestination(), 0 , 16);
     }
 
     /**
@@ -59,14 +60,4 @@ public class RegistSentenceController {
         if (StringUtil.isEmpty(form.getDestination())) throw new RuntimeException("Form必須エラー : destination");
     }
 
-    /**
-     * 長さチェック
-     * @param str
-     */
-    private void assertLength(String str, int min , int max){
-        if (str.length() < min ||
-        str.length() > max) {
-            throw new RuntimeException("Form長さエラー : " + str);
-        }
-    }
 }
