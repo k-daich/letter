@@ -14,6 +14,8 @@ import jp.daich.letter.spring.model.db.entity.TPage;
 import jp.daich.letter.spring.entity.response.LetterInfo;
 import jp.daich.letter.spring.model.db.dao.TPageDao;
 import jp.daich.letter.spring.model.db.dao.TSentenceDao;
+import jp.daich.letter.spring.model.db.dao.repository.TSentenceRepository;
+import jp.daich.letter.spring.model.db.dao.repository.impl.TSentenceRepositoryImpl;
 
 @Component
 public class CreateLetterInfoProcedure {
@@ -28,15 +30,26 @@ public class CreateLetterInfoProcedure {
     private TSentenceDao tSentenceDao;
 
     @Autowired
+    private TSentenceRepositoryImpl tSentenceRepo;
+
+    @Autowired
     private TPageDao tPageDao;
 
     public LetterInfo execute(String sentence_id) {
+
         // レスポンス用のオブジェクトにTSentenceの情報を設定する
         letterInfo.setTSentenceValues(
                 // 取得したエンティティからTSentenceオブジェクトを構築する
                 // TSentence.build(
-                        // TSentenceテーブルをSELECT
-                        tSentenceDao.getById(sentence_id));
+                // TSentenceテーブルをSELECT
+                tSentenceRepo.findBySentence_id(sentence_id).next());
+
+        // // レスポンス用のオブジェクトにTSentenceの情報を設定する
+        // letterInfo.setTSentenceValues(
+        // // 取得したエンティティからTSentenceオブジェクトを構築する
+        // // TSentence.build(
+        // // TSentenceテーブルをSELECT
+        // tSentenceDao.getById(sentence_id));
 
         // レスポンス用のオブジェクトにTpageリストを設定する
         letterInfo.settPageList(
@@ -52,6 +65,7 @@ public class CreateLetterInfoProcedure {
 
     /**
      * Daoの結果Listを元にTpageオブジェクトのListを構築する
+     * 
      * @param entityList
      * @return
      */

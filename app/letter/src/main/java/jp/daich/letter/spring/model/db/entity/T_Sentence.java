@@ -5,10 +5,12 @@ import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-public class TSentence {
+@Table(name="T_SENTENCE")
+public class T_Sentence {
 
     @Id
     private String sentence_id;
@@ -24,11 +26,11 @@ public class TSentence {
     /**
      * Invalidate Constructor
      */
-    private TSentence() {
+    private T_Sentence() {
     }
 
-    public static TSentence build(Map<String, Object> entity) {
-        TSentence instance = new TSentence();
+    public static T_Sentence build(Map<String, Object> entity) {
+        T_Sentence instance = new T_Sentence();
         instance.setSentence_id((String) entity.get("sentence_id"));
         instance.setTitle((String) entity.get("title"));
         instance.setSender((String) entity.get("sender"));

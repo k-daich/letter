@@ -1,5 +1,7 @@
 package jp.daich.letter.spring.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,9 +20,13 @@ public class LetterInitController {
     @Autowired
     CreateLetterInfoProcedure createLetterInfoProcedure;
 
+    private Logger logger = LogManager.getLogger();
+
     @RequestMapping(path = "/app/letter", method = RequestMethod.GET)
     public ResponseEntity<LetterInfo> execute(@RequestParam("sentence_id") String sentence_id) {
+        
         System.out.println("LetterInitController : start");
+        logger.debug("[LetterInitController-execute] : start");
 
         return ResponseEntity.ok(
                 // LetterInfoの生成

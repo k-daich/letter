@@ -12,14 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 abstract public class BaseDao {
 
+    @Autowired
     protected EntityManager em;
-
-    /**
-     * Constructor with EntityManager
-     */
-    protected BaseDao(EntityManager em) {
-        this.em = em;
-    }
 
     @Autowired
     protected JdbcTemplate jdbcTemplate;

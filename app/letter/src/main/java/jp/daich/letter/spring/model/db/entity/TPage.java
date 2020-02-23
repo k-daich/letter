@@ -2,6 +2,13 @@ package jp.daich.letter.spring.model.db.entity;
 
 import java.util.Map;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="t_page")
 public class TPage {
 
     /**
@@ -22,6 +29,7 @@ public class TPage {
         return instance;
     }
 
+    @Id
     private String page_id;
     private String fk_sentence_id;
     private int page_of_sentence;

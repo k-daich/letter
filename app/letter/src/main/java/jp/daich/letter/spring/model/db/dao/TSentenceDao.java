@@ -1,22 +1,14 @@
 package jp.daich.letter.spring.model.db.dao;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Component;
 
 import jp.daich.letter.spring.model.db.dao.base.BaseDao;
-import jp.daich.letter.spring.model.db.entity.TSentence;
+import jp.daich.letter.spring.model.db.entity.T_Sentence;
 
 @Component
 public class TSentenceDao extends BaseDao {
-
-    /**
-     * Using BaseDao Constructor
-     */
-    public TSentenceDao(final EntityManager em) {
-        super(em);
-    }
 
     /**
      * return tableName
@@ -34,10 +26,10 @@ public class TSentenceDao extends BaseDao {
      * @param id
      * @return
      */
-    public TSentence getById(final String sentence_id) {
+    public T_Sentence getById(final String sentence_id) {
         Query query = em.createQuery("from t_sentence where sentence_id = :sentence_id");
         query.setParameter("sentence_id", sentence_id);
-        TSentence result = (TSentence)query.getSingleResult();
+        T_Sentence result = (T_Sentence)query.getSingleResult();
         em.close();
         return result;
     }
@@ -46,7 +38,7 @@ public class TSentenceDao extends BaseDao {
      * execute Insert
      * @param entity
      */
-    public void create(TSentence entity) {
+    public void create(T_Sentence entity) {
         em.persist(entity);
         em.flush();
         em.close();

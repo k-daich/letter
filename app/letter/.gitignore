@@ -32,3 +32,4 @@ build/
 
 ### contains security code
 application.properties
+persistence.xml.invalid

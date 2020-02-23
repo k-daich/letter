@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import jp.daich.letter.spring.model.db.entity.TPage;
-import jp.daich.letter.spring.model.db.entity.TSentence;
+import jp.daich.letter.spring.model.db.entity.T_Sentence;
 
 /***
  * LetterInfo
@@ -33,11 +33,11 @@ public class LetterInfo implements Serializable {
 	}
 
 	/**
-	 * set TSentence values to LetterInfo
+	 * set T_Sentence values to LetterInfo
 	 * 
 	 * @param entity
 	 */
-	public void setTSentenceValues(TSentence entity) {
+	public void setTSentenceValues(T_Sentence entity) {
 		setSentence_id(entity.getSentence_id());
 		setTitle(entity.getTitle());
 		setSentence_id(entity.getSentence_id());

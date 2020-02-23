@@ -1,2 +1,5 @@
 docs
 .gitignore
+application.properties
+persistemce.xml
+
