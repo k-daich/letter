@@ -1,6 +1,4 @@
-package jp.daich.letter.spring.model.db.dao.repository.impl;
-
-import java.util.Iterator;
+package jp.daich.letter.spring.model.db.repository.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,12 +8,12 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Component;
 
-import jp.daich.letter.spring.model.db.dao.repository.TSentenceRepository;
+import jp.daich.letter.spring.model.db.repository.TSentenceRepositoryCustom;
 import jp.daich.letter.spring.model.db.entity.T_Sentence;
 import jp.daich.letter.spring.model.db.entity.T_Sentence_;
 
 @Component
-public class TSentenceRepositoryImpl implements TSentenceRepository {
+public class TSentenceRepositoryCustomImpl implements TSentenceRepositoryCustom {
 
     @PersistenceContext
     EntityManager em;

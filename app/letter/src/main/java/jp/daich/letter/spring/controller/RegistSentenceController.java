@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jp.daich.letter.spring.entity.request.RegistSentenceForm;
 import jp.daich.letter.spring.model.Path;
+import jp.daich.letter.spring.model.procedure.RegistSentenceProcedure;
 import jp.daich.util.StringUtil;
 
 @Controller
@@ -19,13 +20,19 @@ public class RegistSentenceController {
     @Autowired
     RegistSentenceForm form;
 
+    @Autowired
+    RegistSentenceProcedure registSentenceProcedure;
+
     @RequestMapping(path = "/app/letter/regist", method = RequestMethod.POST)
-    public ModelAndView execute(@ModelAttribute RegistSentenceForm form) {
+    public ModelAndView regist(@ModelAttribute RegistSentenceForm form) {
         System.out.println("RegistSentenceController : start");
         System.out.println("form values : " + form.toString());
 
         // リクエストフォーム情報のチェック
         assertRequestForm(form);
+
+        // DBへの登録を実施する
+        registSentenceProcedure.execute(form);
 
         // レスポンスビューの生成
         ModelAndView mv = new ModelAndView();

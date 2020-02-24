@@ -4,7 +4,7 @@ public class Path {
     public enum URL {
         LETTER("/letter"),
         REGIST("/letter/registSentence.html"),
-        REGIST_RESULT("/letter/registSentenceResult.html");
+        REGIST_RESULT("/registSentenceResult.html");
 
         private String url;
 

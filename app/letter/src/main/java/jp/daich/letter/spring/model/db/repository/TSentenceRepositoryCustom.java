@@ -1,11 +1,11 @@
-package jp.daich.letter.spring.model.db.dao.repository;
+package jp.daich.letter.spring.model.db.repository;
 
 import org.springframework.stereotype.Repository;
 
 import jp.daich.letter.spring.model.db.entity.T_Sentence;
 
 @Repository
-public interface TSentenceRepository {
+public interface TSentenceRepositoryCustom {
 
     T_Sentence findBySentence_id(String sentence_id);
 }

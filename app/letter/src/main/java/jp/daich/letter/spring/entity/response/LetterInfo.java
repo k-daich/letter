@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import jp.daich.letter.spring.model.db.entity.TPage;
+import jp.daich.letter.spring.model.db.entity.T_Page;
 import jp.daich.letter.spring.model.db.entity.T_Sentence;
 
 /***
@@ -24,7 +24,7 @@ public class LetterInfo implements Serializable {
 	private String sender;
 	private String destination;
 	private Date create_date;
-	private List<TPage> tPageList;
+	private List<T_Page> tPageList;
 
 	/**
 	 * constructor for Test
@@ -86,11 +86,11 @@ public class LetterInfo implements Serializable {
 		this.sentence_id = sentence_id;
 	}
 
-	public List<TPage> gettPageList() {
+	public List<T_Page> gettPageList() {
 		return tPageList;
 	}
 
-	public void settPageList(List<TPage> tPageList) {
+	public void settPageList(List<T_Page> tPageList) {
 		this.tPageList = tPageList;
 	}
 }

@@ -6,18 +6,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import jp.daich.letter.spring.model.db.entity.factory.EntityBase;
+
 @Entity
 @Table(name="t_page")
-public class TPage {
+public class T_Page implements EntityBase {
 
     /**
      * Invalidate Constructor
      */
-    private TPage() {
+    private T_Page() {
     }
 
-    public static TPage build(final Map<String, Object> tblRow) {
-        final TPage instance = new TPage();
+    public static T_Page build(final Map<String, Object> tblRow) {
+        final T_Page instance = new T_Page();
         instance.setPage_id((String) tblRow.get("page_id"));
         instance.setFk_sentence_id((String) tblRow.get("fk_sentence_id"));
         instance.setPage_of_sentence((int) tblRow.get("page_of_sentence"));

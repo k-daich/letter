@@ -6,10 +6,13 @@ import java.util.Map;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import jp.daich.letter.spring.model.db.entity.factory.EntityBase;
 
 @Entity
 // @Table(name="T_SENTENCE")
-public class T_Sentence {
+public class T_Sentence implements EntityBase {
 
     @Id
     private String sentence_id;
@@ -19,13 +22,13 @@ public class T_Sentence {
     private String sender;
     @NotEmpty
     private String destination;
-    @NotEmpty
+    @NotNull
     private Date create_date;
 
     /**
      * Invalidate Constructor
      */
-    private T_Sentence() {
+    public T_Sentence() {
     }
 
     public static T_Sentence build(Map<String, Object> entity) {
